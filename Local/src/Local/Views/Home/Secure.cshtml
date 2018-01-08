@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Secure";
+}
+
+@model PolicyServer.Client.PolicyResult
+
+<h1>Current User Claims</h1>
+@foreach (var id in User.Identities)
+{
+    <h3>Scheme: @id.AuthenticationType</h3>
+    <dl>
+        @foreach (var claim in id.Claims)
+        {
+            <dt>@claim.Type</dt>
+            <dd>@claim.Value</dd>
+        }
+    </dl>
+}
+
+<h1>Policy Results</h1>
+@if (Model.Roles.Any())
+{
+    <h2>Roles</h2>
+    <ul>
+        @foreach (var role in Model.Roles)
+        {
+            <li>@role</li>
+        }
+    </ul>
+}
+
+@if (Model.Permissions.Any())
+{
+    <h2>Permission</h2>
+    <ul>
+        @foreach (var perm in Model.Permissions)
+        {
+            <li>@perm</li>
+        }
+    </ul>
+}
+
+<h1>Operations</h1>
+
+<p>
+    <a asp-action="NursesOnly">Nurses-only action</a>
+</p>
+<p>
+    <a asp-action="PerformSurgery">Perform surgery</a>
+</p>
+<p>
+    <a asp-action="PrescribeMedication" asp-route-name="aspirin" asp-route-amount="10">Prescribe 10mg aspirin</a>
+</p>
+<p>
+    <a asp-action="PrescribeMedication" asp-route-name="aspirin" asp-route-amount="20">Prescribe 20mg aspirin</a>
+</p>
+<p>
+    <a asp-action="PrescribeMedication" asp-route-name="placebo" asp-route-amount="50">Prescribe 50mg placebo</a>
+</p>
