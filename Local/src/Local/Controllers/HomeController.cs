@@ -40,7 +40,7 @@ namespace Host.Controllers
             // can also use the client library imperatively
             var isNurse = await _client.IsInRoleAsync(User, "nurse");
 
-            return View("success");
+            return View("Success");
         }
 
         // the preferred approach is to use the authorization policy system in ASP.NET Core
@@ -51,7 +51,7 @@ namespace Host.Controllers
             // or imperatively
             var canPerformSurgery = await _client.HasPermissionAsync(User, "PerformSurgery");
 
-            return View("success");
+            return View("Success");
         }
 
         public async Task<IActionResult> PrescribeMedication(string name, int amount)
@@ -64,7 +64,7 @@ namespace Host.Controllers
             var result = await _authz.AuthorizeAsync(User, null, requirement);
             if (!result.Succeeded) return Forbid();
 
-            return View("success");
+            return View("Success");
         }
     }
 }
