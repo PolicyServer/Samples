@@ -93,14 +93,14 @@ Fist, you need to register the PolicyServer client with the DI system. This is w
 services.AddPolicyServerClient(Configuration.GetSection("Policy"));
 ```
 
-After that you can inject the `PolicyServerClient` anywhere into your application code, e.g.:
+After that you can inject the `IPolicyServerClient` anywhere into your application code, e.g.:
 
 ```csharp
 public class HomeController : Controller
 {
-    private readonly PolicyServerClient _client;
+    private readonly IPolicyServerClient _client;
 
-    public HomeController(PolicyServerClient client)
+    public HomeController(IPolicyServerClient client)
     {
         _client = client;
     }
