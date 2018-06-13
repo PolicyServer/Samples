@@ -30,6 +30,8 @@ namespace Host.Controllers
         {
             var result = await _client.EvaluateAsync(User);
             return View(result);
+
+            //return View();
         }
 
         // if you are using the UsePolicyServerClaimsTransformation middleware, roles are mapped to claims
