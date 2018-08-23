@@ -16,7 +16,8 @@
         }
     </dl>
 }
-
+@if (Model != null)
+{
 <h1>Policy Results</h1>
 @if (Model.Roles.Any())
 {
@@ -38,6 +39,7 @@
             <li>@perm</li>
         }
     </ul>
+}
 }
 
 <h1>Operations</h1>
