@@ -90,17 +90,17 @@ In the permissions element you can define permissions, and which roles they are 
 Fist, you need to register the PolicyServer client with the DI system. This is where you specify the configuration section that holds your policy.
 
 ```csharp
-services.AddPolicyServerClient(Configuration.GetSection("Policy"));
+services.AddPolicyServerRuntimeClient(Configuration.GetSection("Policy"));
 ```
 
-After that you can inject the `PolicyServerClient` anywhere into your application code, e.g.:
+After that you can inject the `IPolicyServerClient` anywhere into your application code, e.g.:
 
 ```csharp
 public class HomeController : Controller
 {
-    private readonly PolicyServerClient _client;
+    private readonly IPolicyServerRuntimeClient _client;
 
-    public HomeController(PolicyServerClient client)
+    public HomeController(IPolicyServerRuntimeClient client)
     {
         _client = client;
     }
@@ -139,7 +139,7 @@ Instead of using the `PolicyServerClient` class directly, you might prefer a pro
 A middleware (registered with `UsePolicyServerClaimsTransformation`) is provided for this purpose, and runs on every request to map the user's authorization data into claims:
 
 ```csharp
-public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+public void Configure(IApplicationBuilder app)
 {
     app.UseAuthentication();
     app.UsePolicyServerClaimsTransformation();
@@ -166,7 +166,7 @@ This way you can use the standard ASP.NET Core authorization APIs or the `[Autho
 To enable that, you need to register a custom authorization policy provider when adding the PolicyServer client library:
 
 ```csharp
-services.AddPolicyServerClient(Configuration.GetSection("Policy"))
+services.AddPolicyServerRuntimeClient(Configuration.GetSection("Policy"))
     .AddAuthorizationPermissionPolicies();
 ```
 

@@ -4,17 +4,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
-using PolicyServer.Client;
 using Host.AspNetCorePolicy;
+using PolicyServer.Runtime.Client;
 
 namespace Host.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IPolicyServerClient _client;
+        private readonly IPolicyServerRuntimeClient _client;
         private readonly IAuthorizationService _authz;
 
-        public HomeController(IPolicyServerClient client, IAuthorizationService authz)
+        public HomeController(IPolicyServerRuntimeClient client, IAuthorizationService authz)
         {
             _client = client;
             _authz = authz;
@@ -30,6 +30,8 @@ namespace Host.Controllers
         {
             var result = await _client.EvaluateAsync(User);
             return View(result);
+
+            //return View();
         }
 
         // if you are using the UsePolicyServerClaimsTransformation middleware, roles are mapped to claims
@@ -40,7 +42,7 @@ namespace Host.Controllers
             // can also use the client library imperatively
             var isNurse = await _client.IsInRoleAsync(User, "nurse");
 
-            return View("success");
+            return View("Success");
         }
 
         // the preferred approach is to use the authorization policy system in ASP.NET Core
@@ -51,7 +53,7 @@ namespace Host.Controllers
             // or imperatively
             var canPerformSurgery = await _client.HasPermissionAsync(User, "PerformSurgery");
 
-            return View("success");
+            return View("Success");
         }
 
         public async Task<IActionResult> PrescribeMedication(string name, int amount)
@@ -64,7 +66,7 @@ namespace Host.Controllers
             var result = await _authz.AuthorizeAsync(User, null, requirement);
             if (!result.Succeeded) return Forbid();
 
-            return View("success");
+            return View("Success");
         }
     }
 }
